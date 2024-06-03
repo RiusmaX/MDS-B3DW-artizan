@@ -2,11 +2,13 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, Navba
 import { AcmeLogo } from './AcmeLogo.jsx'
 import { useState } from 'react'
 import { useAuth } from '../../contexts/authContext.jsx'
+import { useNavigate } from 'react-router-dom'
 
 function Header () {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const { state: { isLoggedIn, user }, logout } = useAuth()
+  const navigate = useNavigate()
 
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen}>
@@ -65,9 +67,12 @@ function Header () {
                   />
                 </DropdownTrigger>
                 <DropdownMenu aria-label='Profile Actions' variant='flat'>
-                  <DropdownItem key='profile' className='h-14 gap-2'>
+                  <DropdownItem key='profile' className='h-14 gap-2' onPress={() => navigate('profil')}>
                     <p className='font-semibold'>Signed in as</p>
                     <p className='font-semibold'>{user.email}</p>
+                  </DropdownItem>
+                  <DropdownItem key='logout' onPress={() => navigate('dashboard')}>
+                    Dashboard
                   </DropdownItem>
                   <DropdownItem key='logout' color='danger' onPress={logout}>
                     Log Out

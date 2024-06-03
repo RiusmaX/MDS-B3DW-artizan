@@ -13,7 +13,7 @@ function ArtisansListItem ({ artisan }) {
       </CardHeader>
       <CardBody className='flex flex-col gap-4'>
         <h3 className='font-semibold text-3xl'>{name}</h3>
-        <p>{description.substring(0, 140)}...</p>
+        <p>{description?.substring(0, 140)}...</p>
       </CardBody>
     </Card>
   )

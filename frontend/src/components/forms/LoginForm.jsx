@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import { useAuth } from '../../contexts/authContext'
 import { Button, Input } from '@nextui-org/react'
 
@@ -9,15 +8,7 @@ function LoginForm () {
     password: 'jeanmich'
   })
 
-  const navigate = useNavigate()
-
-  const { state: { user, jwt, error, loading }, login } = useAuth()
-
-  useEffect(() => {
-    if (user && jwt) {
-      navigate('/dashboard')
-    }
-  }, [user, jwt])
+  const { state: { error, loading }, login } = useAuth()
 
   const handleChange = (event) => {
     setFormData({

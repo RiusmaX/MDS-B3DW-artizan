@@ -1,23 +1,17 @@
-import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/authContext'
-import { Button } from '@nextui-org/react'
+import { useFetch } from '../../hooks/Api'
+import ProductsList from '../../components/products/ProductsList'
 
 function Dashboard () {
-  const navigate = useNavigate()
+  const { state: { user } } = useAuth()
 
-  const { logout } = useAuth()
-
-  const handleLogout = () => {
-    logout()
-    navigate('/authentication')
-  }
+  const { response, getData } =
+  useFetch(`/products?filters[artisan][user][id]=${user.id}&populate[0]=images&populate[1]=artisan.user&sort=price:asc`)
 
   return (
     <>
-      <h2>DASHBOARD</h2>
-      <Button onClick={handleLogout}>
-        Se déconnecter
-      </Button>
+      <h2 className='text-3xl text-center'>DASHBOARD</h2>
+      <ProductsList products={response} getData={getData} />
     </>
   )
 }

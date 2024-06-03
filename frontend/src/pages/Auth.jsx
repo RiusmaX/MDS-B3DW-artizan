@@ -11,22 +11,22 @@ function Auth () {
   const { state: { jwt, user } } = useAuth()
 
   useEffect(() => {
-    if (jwt && user) {
+    if (user && jwt) {
       navigate('/dashboard')
     }
-  }, [])
+  }, [user, jwt])
 
   return (
-    <>
+    <div className='container mx-auto max-w-fit'>
       {
         isRegister
           ? <RegisterForm />
           : <LoginForm />
       }
-      <a onClick={() => setIsRegister(!isRegister)}>
+      <a onClick={() => setIsRegister(!isRegister)} className='cursor-pointer'>
         {isRegister ? "J'ai déjà un compte" : "Je n'ai pas de compte"}
       </a>
-    </>
+    </div>
   )
 }
 

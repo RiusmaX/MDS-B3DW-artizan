@@ -10,7 +10,7 @@ function Artisan () {
   useFetch(`/artisans?filters[slug][$eq]=${artisanSlug}&populate=*`)
 
   const { response: products, error: productsError, loading: productsLoading } =
-  useFetch(`/products?filters[artisan][slug][$eq]=${artisanSlug}&populate=*`)
+  useFetch(`/products?filters[artisan][slug][$eq]=${artisanSlug}&populate[0]=images&populate[1]=artisan.user`)
 
   if (loading || productsLoading) return <h1>Chargement...</h1>
 

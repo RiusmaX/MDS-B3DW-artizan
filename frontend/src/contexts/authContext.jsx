@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from 'react'
-import { loginApi } from '../services/api'
+import { loginApi, registerApi, updateProfileApi } from '../services/api'
 import { toast } from 'react-toastify'
 
 const AuthContext = createContext()
@@ -7,6 +7,7 @@ const AuthContext = createContext()
 const actionTypes = {
   LOGIN: 'LOGIN', // Connecté avec succès
   REGISTER: 'REGISTER', // Inscrit + connecté avec succès
+  UPDATE_PROFILE: 'UPDATE_PROFILE', // Mise à jour du profil
   LOGOUT: 'LOGOUT', // Déconnecté
   LOADING: 'LOADING', // Chargement
   ERROR: 'ERROR', // Erreur
@@ -36,12 +37,17 @@ const authReducer = (prevState, action) => {
         loading: false,
         error: null
       }
+    case actionTypes.UPDATE_PROFILE:
+      return {
+        ...prevState,
+        user: action.data.user,
+        loading: false,
+        error: null
+      }
     case actionTypes.ERROR:
       return {
-        jwt: null,
-        user: null,
+        ...prevState,
         loading: false,
-        isLoggedIn: false,
         error: action.data.error
       }
     case actionTypes.LOADING:
@@ -77,6 +83,49 @@ const authFactory = (dispatch) => ({
         type: actionTypes.ERROR,
         data: {
           error: 'Identifiant ou mot de passe incorrect'
+        }
+      })
+    }
+  },
+  register: async (credentials) => {
+    dispatch({ type: actionTypes.LOADING })
+    try {
+      const result = await registerApi(credentials)
+      dispatch({
+        type: actionTypes.REGISTER,
+        data: {
+          user: result.user,
+          jwt: result.jwt
+        }
+      })
+    } catch (error) {
+      console.error(error)
+      toast.error('Un problème est survenu lors de l\'inscription')
+      dispatch({
+        type: actionTypes.ERROR,
+        data: {
+          error: 'Un problème est survenu lors de l\'inscription'
+        }
+      })
+    }
+  },
+  updateProfile: async (user, id) => {
+    dispatch({ type: actionTypes.LOADING })
+    try {
+      const result = await updateProfileApi(user, id)
+      dispatch({
+        type: actionTypes.UPDATE_PROFILE,
+        data: {
+          user: result
+        }
+      })
+    } catch (error) {
+      console.error(error)
+      toast.error('Un problème est survenu lors de la modification du profil')
+      dispatch({
+        type: actionTypes.ERROR,
+        data: {
+          error: 'Un problème est survenu lors de la modification du profil'
         }
       })
     }

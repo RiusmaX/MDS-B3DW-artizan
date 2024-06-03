@@ -14,10 +14,13 @@ import Artisan from '../pages/Artisan'
 import Auth from '../pages/Auth'
 import Dashboard from '../pages/protected/Dashboard'
 import PrivateRoute from './PrivateRouteMiddleware'
+import Header from '../components/header/Header'
+import Profil from '../pages/Profil'
 
 function Router () {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='artisans'>
@@ -28,6 +31,7 @@ function Router () {
         <Route path='services' element={<Services />} />
         <Route path='contact' element={<Contact />} />
         <Route path='authentication' element={<Auth />} />
+        <Route path='profil' element={<Profil />} />
         <Route path='dashboard' element={<PrivateRoute />}>
           <Route index element={<Dashboard />} />
         </Route>

@@ -10,7 +10,6 @@ function App () {
     <>
       <NextUIProvider>
         <AuthProvider>
-          <Header />
           <Router />
           <ToastContainer />
         </AuthProvider>

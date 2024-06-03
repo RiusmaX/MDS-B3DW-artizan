@@ -1,7 +1,7 @@
 import { isLength } from 'validator'
 
 const validateRegisterForm = (formData) => {
-  const errors = {}
+  const errors = null
   if (typeof formData === 'object') {
     // Checking First name
     if (!isLength(formData.firstName, { min: 2, max: undefined })) { errors.firstName = 'First name is invalid' }
